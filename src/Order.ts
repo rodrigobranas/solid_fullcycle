@@ -24,8 +24,7 @@ export default class Order {
 
     getTaxes (date: Date) {
        return this.items
-            .map(item => new ApplayTax(item))
-            .map(item=>item.calcule(date))
+            .map(item => new ApplayTax(item).calcule(date))
             .reduce((a, v) => a+v);
     }
 
