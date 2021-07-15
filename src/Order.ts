@@ -1,3 +1,4 @@
+import ApplayTax from "./ApplayTax";
 import Item from "./Item";
 import TaxItem from "./TaxItem";
 
@@ -16,21 +17,15 @@ export default class Order {
     }
 
     getSubtotal () {
-        let total = 0;
-        for (const item of this.items) {
-            total += item.price;
-        }
-        return total;
+        return this.items
+            .map(item=>item.price)
+            .reduce((a, v) => a+v);
     }
 
     getTaxes (date: Date) {
-        let taxes = 0;
-        for (const item of this.items) {
-            if (item instanceof TaxItem) {
-                taxes += item.calculateTaxes(date);
-            }
-        }
-        return taxes;
+       return this.items
+            .map(item => new ApplayTax(item).calcule(date))
+            .reduce((a, v) => a+v);
     }
 
     getTotal (date: Date) {
